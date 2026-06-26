@@ -4,10 +4,11 @@ EXPOSE 8080
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-COPY ["Hospedagem00.csproj", "."]
-RUN dotnet restore "./Hospedagem00.csproj"
+# Altera a cópia para buscar de dentro da pasta Hospedagem00
+COPY ["Hospedagem00/Hospedagem00.csproj", "Hospedagem00/"]
+RUN dotnet restore "Hospedagem00/Hospedagem00.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/Hospedagem00"
 RUN dotnet build "Hospedagem00.csproj" -c Release -o /app/build
 
 FROM build AS publish
